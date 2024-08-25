@@ -5,5 +5,6 @@ selenium==4.18.1
 webdriver-manager==4.0.2
 streamlit-option-menu==0.3.12
 tk==0.1.0
-numpy==1.24.4
+numpy==1.23.5
 setuptools==68.2.2
+wheel==0.41.2
