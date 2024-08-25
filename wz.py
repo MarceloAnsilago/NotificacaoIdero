@@ -8,6 +8,7 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 from webdriver_manager.chrome import ChromeDriverManager
+
 import urllib.parse
 import pandas as pd
 import random
@@ -159,7 +160,7 @@ def gerar_segundo_aleatorio(segundo_inicial, segundo_final):
     return segundos
 
 def iniciar_whatsapp_web():
-    global driver  # Indique que vamos usar a variável global driver
+    global driver
     st.write("Processo de disparos iniciados!")
     
     # Configurações do Chrome para rodar em modo "headless"
@@ -168,16 +169,14 @@ def iniciar_whatsapp_web():
     chrome_options.add_argument("--no-sandbox")
     chrome_options.add_argument("--disable-dev-shm-usage")
     
-    # Especificando a versão do ChromeDriver corretamente
-    Servico = Service(ChromeDriverManager().install())
-    driver = webdriver.Chrome(service=Servico, options=chrome_options)  # Passando as opções configuradas
+    # Configura e inicializa o WebDriver usando o WebDriver Manager
+    driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=chrome_options)
     driver.get('https://web.whatsapp.com')
     
     # Aguarda até que o elemento 'side' esteja presente
     while len(driver.find_elements(By.ID, 'side')) < 1:
         time.sleep(1)
     
-    time.sleep(2)
     st.write("WhatsApp Web carregado e pronto para uso.")
 
 try:
