@@ -13,7 +13,7 @@ import urllib.parse
 import pandas as pd
 import random
 import streamlit as st
-
+import chromedriver_autoinstaller
 from streamlit_option_menu import option_menu
 
 
@@ -161,32 +161,26 @@ def gerar_segundo_aleatorio(segundo_inicial, segundo_final):
 
 def iniciar_whatsapp_web():
     global driver
-    st.write("Iniciando o WhatsApp Web...")
+    st.write("Processo de disparos iniciados!")
+    
+    # Instala automaticamente a versão correta do ChromeDriver
+    chromedriver_autoinstaller.install()
 
-    # Configurações do Chrome para rodar em modo "headless"
     chrome_options = Options()
-    driver = webdriver.Chrome(service=ChromiumService('/usr/bin/chromedriver'), options=chrome_options)
-    chrome_options.add_argument("--headless")
+    chrome_options.add_argument("--headless")  # Modo headless
     chrome_options.add_argument("--no-sandbox")
     chrome_options.add_argument("--disable-dev-shm-usage")
-    chrome_options.add_argument("--disable-gpu")
-    
- 
-    # Especifica o caminho do binário do Chromium
     chrome_options.binary_location = '/usr/bin/chromium'
 
-    # Inicializa o WebDriver com o caminho do Chromium e o ChromeDriver correto
-    driver = webdriver.Chrome(service=ChromiumService('/usr/bin/chromedriver'), options=chrome_options)
-
-    try:
-        driver = webdriver.Chrome(service=Service("/usr/bin/chromedriver"), options=chrome_options)
-        driver.get('https://web.whatsapp.com')
-        while len(driver.find_elements(By.ID, 'side')) < 1:
-            time.sleep(1)
-        st.write("WhatsApp Web carregado com sucesso!")
-    except Exception as e:
-        st.error(f"Ocorreu um erro ao iniciar o WhatsApp Web: {str(e)}")
-
+    # Inicializa o WebDriver
+    driver = webdriver.Chrome(options=chrome_options)
+    driver.get('https://web.whatsapp.com')
+    
+    while len(driver.find_elements(By.ID, 'side')) < 1:
+        time.sleep(1)
+    
+    time.sleep(2)
+    st.write("WhatsApp Web carregado e pronto para uso.")
 
 def calcular_contagens_status(df):
     if 'Status' in df.columns and not df.empty:
