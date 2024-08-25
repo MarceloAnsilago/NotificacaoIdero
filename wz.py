@@ -160,15 +160,19 @@ def gerar_segundo_aleatorio(segundo_inicial, segundo_final):
     return segundos
 
 def iniciar_whatsapp_web():
-    global driver  # Indique que vamos usar a variável global driver
+    global driver
     st.write("Processo de disparos iniciado!")
 
-    # Instala automaticamente o ChromeDriver, se necessário
-    chromedriver_autoinstaller.install()
+    # Diretório temporário acessível
+    temp_dir = "/tmp"
+    os.environ["WDM_LOCAL"] = "1"  # Configurar para usar o caminho local
+
+    # Instala automaticamente o ChromeDriver no diretório temporário
+    chromedriver_autoinstaller.install(path=temp_dir)
 
     # Configurações do Chrome para rodar em modo "headless"
     chrome_options = Options()
-    chrome_options.add_argument("--headless")  # Modo headless (sem interface gráfica)
+    chrome_options.add_argument("--headless")
     chrome_options.add_argument("--no-sandbox")
     chrome_options.add_argument("--disable-dev-shm-usage")
 
@@ -184,7 +188,7 @@ def iniciar_whatsapp_web():
     st.write("WhatsApp Web carregado e pronto para uso.")
 
 
-    
+
 
 def calcular_contagens_status(df):
     if 'Status' in df.columns and not df.empty:
