@@ -1,0 +1,4 @@
+libnss3
+libgconf-2-4
+libxi6
+libxkbfile1

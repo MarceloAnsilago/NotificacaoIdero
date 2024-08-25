@@ -161,28 +161,21 @@ def gerar_segundo_aleatorio(segundo_inicial, segundo_final):
 
 def iniciar_whatsapp_web():
     global driver
-    st.write("Processo de disparos iniciados!")
-    
-    # Configurações do Chrome para rodar em modo "headless"
+    st.write("Iniciando o WhatsApp Web...")
+
     chrome_options = Options()
-    chrome_options.add_argument("--headless")  # Modo headless (sem interface gráfica)
+    chrome_options.add_argument("--headless")
     chrome_options.add_argument("--no-sandbox")
     chrome_options.add_argument("--disable-dev-shm-usage")
-    
-    # Configura e inicializa o WebDriver usando o WebDriver Manager
-    driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=chrome_options)
-    driver.get('https://web.whatsapp.com')
-    
-    # Aguarda até que o elemento 'side' esteja presente
-    while len(driver.find_elements(By.ID, 'side')) < 1:
-        time.sleep(1)
-    
-    st.write("WhatsApp Web carregado e pronto para uso.")
 
-try:
-    iniciar_whatsapp_web()
-except Exception as e:
-    st.error(f"Ocorreu um erro ao iniciar o WhatsApp Web: {str(e)}")
+    try:
+        driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=chrome_options)
+        driver.get('https://web.whatsapp.com')
+        while len(driver.find_elements(By.ID, 'side')) < 1:
+            time.sleep(1)
+        st.write("WhatsApp Web carregado com sucesso!")
+    except Exception as e:
+        st.error(f"Ocorreu um erro ao iniciar o WhatsApp Web: {str(e)}")
 
 
 def calcular_contagens_status(df):
