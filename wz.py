@@ -16,7 +16,9 @@ import streamlit as st
 import chromedriver_autoinstaller
 from streamlit_option_menu import option_menu
 import os
-
+from PIL import Image
+import base64
+from io import BytesIO
 
 
 
@@ -161,7 +163,7 @@ def gerar_segundo_aleatorio(segundo_inicial, segundo_final):
 
 def iniciar_whatsapp_web():
     global driver
-    st.write("Processo de disparos iniciado!")
+    st.write("Processo de captura do QR code iniciado!")
 
     # Diretório temporário acessível
     temp_dir = "/tmp"
@@ -172,7 +174,7 @@ def iniciar_whatsapp_web():
 
     # Configurações do Chrome para rodar em modo "headless"
     chrome_options = Options()
-  
+    chrome_options.add_argument("--headless")
     chrome_options.add_argument("--no-sandbox")
     chrome_options.add_argument("--disable-dev-shm-usage")
 
@@ -180,12 +182,22 @@ def iniciar_whatsapp_web():
     driver = webdriver.Chrome(options=chrome_options)
     driver.get('https://web.whatsapp.com')
     
-    # Aguarda até que o elemento 'side' esteja presente
-    while len(driver.find_elements(By.ID, 'side')) < 1:
-        time.sleep(1)
-    
-    time.sleep(2)
-    st.write("WhatsApp Web carregado e pronto para uso.")
+    # Aguarda até que o QR code seja carregado
+    time.sleep(5)
+
+    # Captura o QR code
+    try:
+        qr_element = driver.find_element(By.XPATH, '//*[@id="app"]/div/div/div[2]/div[1]/div/div[2]/div/div/div[2]/div')
+        qr_code_base64 = qr_element.screenshot_as_base64  # Captura o QR code como uma imagem base64
+
+        # Converte a imagem base64 em um objeto de imagem
+        qr_code_image = Image.open(BytesIO(base64.b64decode(qr_code_base64)))
+
+        # Exibe o QR code no Streamlit
+        st.image(qr_code_image, caption="Escaneie o QR code para acessar o WhatsApp Web", use_column_width=True)
+
+    except Exception as e:
+        st.error(f"Ocorreu um erro ao capturar o QR code: {e}")
 
 
 
