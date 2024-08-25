@@ -172,7 +172,7 @@ def iniciar_whatsapp_web():
 
     # Configurações do Chrome para rodar em modo "headless"
     chrome_options = Options()
-    chrome_options.add_argument("--headless")
+  
     chrome_options.add_argument("--no-sandbox")
     chrome_options.add_argument("--disable-dev-shm-usage")
 
