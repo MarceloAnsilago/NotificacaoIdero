@@ -8,7 +8,7 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 from webdriver_manager.chrome import ChromeDriverManager
-
+from selenium.webdriver.chrome.service import Service as ChromiumService
 import urllib.parse
 import pandas as pd
 import random
@@ -165,13 +165,18 @@ def iniciar_whatsapp_web():
 
     # Configurações do Chrome para rodar em modo "headless"
     chrome_options = Options()
+    driver = webdriver.Chrome(service=ChromiumService('/usr/bin/chromedriver'), options=chrome_options)
     chrome_options.add_argument("--headless")
     chrome_options.add_argument("--no-sandbox")
     chrome_options.add_argument("--disable-dev-shm-usage")
     chrome_options.add_argument("--disable-gpu")
     
-    # Define explicitamente o caminho para o Chromium instalado
-    chrome_options.binary_location = "/usr/bin/chromium"
+ 
+    # Especifica o caminho do binário do Chromium
+    chrome_options.binary_location = '/usr/bin/chromium'
+
+    # Inicializa o WebDriver com o caminho do Chromium e o ChromeDriver correto
+    driver = webdriver.Chrome(service=ChromiumService('/usr/bin/chromedriver'), options=chrome_options)
 
     try:
         driver = webdriver.Chrome(service=Service("/usr/bin/chromedriver"), options=chrome_options)
