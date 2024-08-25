@@ -169,13 +169,12 @@ def iniciar_whatsapp_web():
     chrome_options.add_argument("--no-sandbox")
     chrome_options.add_argument("--disable-dev-shm-usage")
     chrome_options.add_argument("--disable-gpu")
-    chrome_options.add_argument("--remote-debugging-port=9222")
     
-    # Define explicitamente o caminho para o Chrome instalado
-    chrome_options.binary_location = "/usr/bin/google-chrome-stable"
+    # Define explicitamente o caminho para o Chromium instalado
+    chrome_options.binary_location = "/usr/bin/chromium"
 
     try:
-        driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=chrome_options)
+        driver = webdriver.Chrome(service=Service("/usr/bin/chromedriver"), options=chrome_options)
         driver.get('https://web.whatsapp.com')
         while len(driver.find_elements(By.ID, 'side')) < 1:
             time.sleep(1)
