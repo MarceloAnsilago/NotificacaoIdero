@@ -187,9 +187,7 @@ def iniciar_whatsapp_web():
 
     # Captura o QR code
     try:
-        qr_element = WebDriverWait(driver, 20).until(
-            EC.presence_of_element_located((By.CSS_SELECTOR, "canvas"))
-        )
+        qr_element = driver.find_element(By.CSS_SELECTOR, 'img[alt="Scan me!"]')
         qr_code_base64 = qr_element.screenshot_as_base64  # Captura o QR code como uma imagem base64
 
         # Converte a imagem base64 em um objeto de imagem
@@ -200,7 +198,6 @@ def iniciar_whatsapp_web():
 
     except Exception as e:
         st.error(f"Ocorreu um erro ao capturar o QR code: {e}")
-
 
 
 
