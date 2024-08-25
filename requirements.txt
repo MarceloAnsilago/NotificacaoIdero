@@ -6,3 +6,4 @@ webdriver-manager==4.0.2
 streamlit-option-menu==0.3.12
 tk==0.1.0
 numpy==1.25.2
+setuptools==65.5.1
