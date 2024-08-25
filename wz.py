@@ -13,7 +13,6 @@ import pandas as pd
 import random
 import streamlit as st
 from tkinter import filedialog
-import tkinter as tk
 from streamlit_option_menu import option_menu
 
 
