@@ -15,7 +15,7 @@ import random
 import streamlit as st
 import chromedriver_autoinstaller
 from streamlit_option_menu import option_menu
-
+import os
 
 
 
@@ -160,22 +160,28 @@ def gerar_segundo_aleatorio(segundo_inicial, segundo_final):
     return segundos
 
 def iniciar_whatsapp_web():
-    global driver
-    st.write("Processo de disparos iniciados!")
-    
-    # Instala automaticamente a versão correta do ChromeDriver
-    chromedriver_autoinstaller.install()
+    # Tenta instalar o chromedriver no diretório atual
+    try:
+        chromedriver_autoinstaller.install(path=os.getcwd())  # Instala o chromedriver no diretório atual
+    except PermissionError as e:
+        st.error(f"Erro de permissão ao tentar instalar o ChromeDriver: {e}")
+        return
 
+    # Configurações do Chrome para rodar em modo "headless"
     chrome_options = Options()
-    chrome_options.add_argument("--headless")  # Modo headless
+    chrome_options.add_argument("--headless")  # Modo headless (sem interface gráfica)
     chrome_options.add_argument("--no-sandbox")
     chrome_options.add_argument("--disable-dev-shm-usage")
-    chrome_options.binary_location = '/usr/bin/chromium'
-
-    # Inicializa o WebDriver
-    driver = webdriver.Chrome(options=chrome_options)
-    driver.get('https://web.whatsapp.com')
     
+    # Inicializa o WebDriver com o chromedriver instalado
+    try:
+        driver = webdriver.Chrome(service=ChromiumService(os.path.join(os.getcwd(), 'chromedriver')), options=chrome_options)
+        driver.get('https://web.whatsapp.com')
+    except Exception as e:
+        st.error(f"Ocorreu um erro ao iniciar o WhatsApp Web: {e}")
+        return
+    
+    # Aguarda até que o elemento 'side' esteja presente
     while len(driver.find_elements(By.ID, 'side')) < 1:
         time.sleep(1)
     
