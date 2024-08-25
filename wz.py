@@ -165,12 +165,8 @@ def iniciar_whatsapp_web():
     global driver
     st.write("Processo de captura do QR code iniciado!")
 
-    # Diretório temporário acessível
-    temp_dir = "/tmp"
-    os.environ["WDM_LOCAL"] = "1"  # Configurar para usar o caminho local
-
-    # Instala automaticamente o ChromeDriver no diretório temporário
-    chromedriver_autoinstaller.install(path=temp_dir)
+    # Instala automaticamente o ChromeDriver e obtém o caminho do executável
+    chromedriver_path = chromedriver_autoinstaller.install()
 
     # Configurações do Chrome para rodar em modo "headless"
     chrome_options = Options()
@@ -179,7 +175,7 @@ def iniciar_whatsapp_web():
     chrome_options.add_argument("--disable-dev-shm-usage")
 
     # Configura e inicializa o WebDriver
-    driver = webdriver.Chrome(service=ChromiumService(temp_dir), options=chrome_options)
+    driver = webdriver.Chrome(service=ChromiumService(chromedriver_path), options=chrome_options)
     driver.get('https://web.whatsapp.com')
     
     try:
