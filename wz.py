@@ -165,8 +165,8 @@ def iniciar_whatsapp_web():
     global driver
     st.write("Processo de captura do QR code iniciado!")
 
-    # Instala automaticamente o ChromeDriver e obtém o caminho do executável
-    chromedriver_path = chromedriver_autoinstaller.install()
+    # Caminho para o ChromeDriver (substitua pelo caminho correto do ChromeDriver instalado)
+    chromedriver_path = "/path/to/your/chromedriver"
 
     # Configurações do Chrome para rodar em modo "headless"
     chrome_options = Options()
