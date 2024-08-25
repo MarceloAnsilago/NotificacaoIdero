@@ -12,7 +12,7 @@ import urllib.parse
 import pandas as pd
 import random
 import streamlit as st
-from tkinter import filedialog
+
 from streamlit_option_menu import option_menu
 
 
