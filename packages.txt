@@ -1,7 +1,7 @@
 google-chrome-stable
-chromium
-chromium-driver
 libnss3
 libgconf-2-4
 libxi6
 libxkbfile1
+chromium
+chromium-driver
