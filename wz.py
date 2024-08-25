@@ -161,14 +161,22 @@ def gerar_segundo_aleatorio(segundo_inicial, segundo_final):
 def iniciar_whatsapp_web():
     global driver  # Indique que vamos usar a variável global driver
     st.write("Processo de disparos iniciados!")
+    
+    # Configurações do Chrome para rodar em modo "headless"
+    chrome_options = Options()
+    chrome_options.add_argument("--headless")  # Modo headless (sem interface gráfica)
+    chrome_options.add_argument("--no-sandbox")
+    chrome_options.add_argument("--disable-dev-shm-usage")
+    
     # Configura e inicializa o WebDriver
     Servico = Service(ChromeDriverManager().install())
-    driver = webdriver.Chrome(service=Servico)
-    # Acessa o WhatsApp Web
+    driver = webdriver.Chrome(service=Servico, options=chrome_options)  # Passando as opções configuradas
     driver.get('https://web.whatsapp.com')
+    
     # Aguarda até que o elemento 'side' esteja presente
     while len(driver.find_elements(By.ID, 'side')) < 1:
         time.sleep(1)
+    
     time.sleep(2)
     st.write("WhatsApp Web carregado e pronto para uso.")
 
