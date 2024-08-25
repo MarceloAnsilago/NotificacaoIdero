@@ -164,7 +164,7 @@ def iniciar_whatsapp_web():
     
     # Configurações do Chrome para rodar em modo "headless"
     chrome_options = Options()
-    chrome_options.add_argument("--headless")  # Modo headless (sem interface gráfica)
+   
     chrome_options.add_argument("--no-sandbox")
     chrome_options.add_argument("--disable-dev-shm-usage")
     chrome_options.add_argument("--disable-gpu")  # Pode ajudar em alguns ambientes de nuvem
@@ -172,7 +172,8 @@ def iniciar_whatsapp_web():
 
     try:
         # Configura e inicializa o WebDriver
-        Servico = Service(ChromeDriverManager().install())
+        Servico = Service(ChromeDriverManager(version="114.0.5735.90").install())
+
         driver = webdriver.Chrome(service=Servico, options=chrome_options)
         st.write("ChromeDriver inicializado com sucesso!")
         
